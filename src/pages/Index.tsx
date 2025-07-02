@@ -27,16 +27,22 @@ const Index = () => {
           </p>
           
           <div className="flex gap-4 justify-center">
-            <Link to="/dashboard">
+            <Link to="/auth">
               <Button size="lg" className="pos-button-blue">
-                <BarChart3 className="w-5 h-5 mr-2" />
-                View Dashboard
+                <ShoppingCart className="w-5 h-5 mr-2" />
+                Get Started
               </Button>
             </Link>
             <Link to="/pricing">
               <Button variant="outline" size="lg">
                 <CreditCard className="w-5 h-5 mr-2" />
                 View Pricing
+              </Button>
+            </Link>
+            <Link to="/dashboard">
+              <Button variant="ghost" size="lg">
+                <BarChart3 className="w-5 h-5 mr-2" />
+                Dashboard Demo
               </Button>
             </Link>
           </div>
