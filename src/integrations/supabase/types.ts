@@ -9,6 +9,131 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      outlets: {
+        Row: {
+          address: string | null
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          owner_id: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          owner_id: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          owner_id?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      product_categories: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          outlet_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          outlet_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          outlet_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_categories_outlet_id_fkey"
+            columns: ["outlet_id"]
+            isOneToOne: false
+            referencedRelation: "outlets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          category_id: string | null
+          cost_price: number
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          name: string
+          outlet_id: string
+          price: number
+          sku: string | null
+          stock_quantity: number
+          updated_at: string
+        }
+        Insert: {
+          category_id?: string | null
+          cost_price?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          outlet_id: string
+          price?: number
+          sku?: string | null
+          stock_quantity?: number
+          updated_at?: string
+        }
+        Update: {
+          category_id?: string | null
+          cost_price?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          outlet_id?: string
+          price?: number
+          sku?: string | null
+          stock_quantity?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "product_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_outlet_id_fkey"
+            columns: ["outlet_id"]
+            isOneToOne: false
+            referencedRelation: "outlets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -18,6 +143,7 @@ export type Database = {
           outlet_id: string | null
           phone: string | null
           role: Database["public"]["Enums"]["user_role"]
+          subscription_plan: Database["public"]["Enums"]["subscription_plan"]
           updated_at: string
           user_id: string
         }
@@ -29,6 +155,7 @@ export type Database = {
           outlet_id?: string | null
           phone?: string | null
           role?: Database["public"]["Enums"]["user_role"]
+          subscription_plan?: Database["public"]["Enums"]["subscription_plan"]
           updated_at?: string
           user_id: string
         }
@@ -40,10 +167,112 @@ export type Database = {
           outlet_id?: string | null
           phone?: string | null
           role?: Database["public"]["Enums"]["user_role"]
+          subscription_plan?: Database["public"]["Enums"]["subscription_plan"]
           updated_at?: string
           user_id?: string
         }
         Relationships: []
+      }
+      transaction_items: {
+        Row: {
+          created_at: string
+          id: string
+          price: number
+          product_id: string
+          quantity: number
+          total: number
+          transaction_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          price: number
+          product_id: string
+          quantity: number
+          total: number
+          transaction_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          price?: number
+          product_id?: string
+          quantity?: number
+          total?: number
+          transaction_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transaction_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transaction_items_transaction_id_fkey"
+            columns: ["transaction_id"]
+            isOneToOne: false
+            referencedRelation: "transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      transactions: {
+        Row: {
+          cashier_id: string
+          created_at: string
+          customer_name: string | null
+          discount_amount: number
+          final_amount: number
+          id: string
+          outlet_id: string
+          payment_method: string | null
+          status: string
+          tax_amount: number
+          total_amount: number
+          transaction_number: string
+          updated_at: string
+        }
+        Insert: {
+          cashier_id: string
+          created_at?: string
+          customer_name?: string | null
+          discount_amount?: number
+          final_amount?: number
+          id?: string
+          outlet_id: string
+          payment_method?: string | null
+          status?: string
+          tax_amount?: number
+          total_amount?: number
+          transaction_number: string
+          updated_at?: string
+        }
+        Update: {
+          cashier_id?: string
+          created_at?: string
+          customer_name?: string | null
+          discount_amount?: number
+          final_amount?: number
+          id?: string
+          outlet_id?: string
+          payment_method?: string | null
+          status?: string
+          tax_amount?: number
+          total_amount?: number
+          transaction_number?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_outlet_id_fkey"
+            columns: ["outlet_id"]
+            isOneToOne: false
+            referencedRelation: "outlets"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
@@ -53,7 +282,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      user_role: "admin" | "manager" | "cashier" | "staff"
+      subscription_plan: "free" | "pro" | "pro_plus"
+      user_role: "superadmin" | "admin" | "manager" | "cashier" | "staff"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -169,7 +399,8 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      user_role: ["admin", "manager", "cashier", "staff"],
+      subscription_plan: ["free", "pro", "pro_plus"],
+      user_role: ["superadmin", "admin", "manager", "cashier", "staff"],
     },
   },
 } as const

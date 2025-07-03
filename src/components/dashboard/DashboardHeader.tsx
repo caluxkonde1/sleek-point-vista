@@ -1,107 +1,138 @@
-import { Calendar, MapPin, Users, ChevronDown, Bell, User } from "lucide-react";
+import { Bell, Search, LogOut, User, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useNavigate } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { useAuth } from "@/hooks/useAuth";
 
 const DashboardHeader = () => {
+  const { user, profile, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/auth');
+  };
+
+  const getSubscriptionBadge = () => {
+    if (!profile) return null;
+    
+    const planColors = {
+      free: "bg-slate-100 text-slate-700",
+      pro: "bg-blue-100 text-blue-700", 
+      pro_plus: "bg-purple-100 text-purple-700"
+    };
+
+    const planLabels = {
+      free: "Free",
+      pro: "Pro",
+      pro_plus: "Pro Plus"
+    };
+
+    return (
+      <Badge 
+        variant="secondary" 
+        className={planColors[profile.subscription_plan]}
+      >
+        {planLabels[profile.subscription_plan]}
+      </Badge>
+    );
+  };
+
   return (
-    <header className="bg-card border-b border-border px-6 py-4">
+    <header className="border-b bg-background px-6 py-3">
       <div className="flex items-center justify-between">
-        {/* Left side - Filters */}
         <div className="flex items-center gap-4">
-          {/* Date Range */}
           <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-muted-foreground" />
-            <Select defaultValue="today">
-              <SelectTrigger className="w-48">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="today">Today • Apr 26, 2018 12:00 AM - Apr 26, 2018 12:00 AM</SelectItem>
-                <SelectItem value="yesterday">Yesterday</SelectItem>
-                <SelectItem value="week">This Week</SelectItem>
-                <SelectItem value="month">This Month</SelectItem>
-              </SelectContent>
-            </Select>
+            <h1 className="text-xl font-semibold text-primary">
+              POS Tenet
+            </h1>
+            {getSubscriptionBadge()}
           </div>
-
-          {/* Country Filter */}
-          <Select defaultValue="country">
-            <SelectTrigger className="w-40">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="country">Select Country</SelectItem>
-              <SelectItem value="indonesia">Indonesia</SelectItem>
-              <SelectItem value="singapore">Singapore</SelectItem>
-              <SelectItem value="malaysia">Malaysia</SelectItem>
-            </SelectContent>
-          </Select>
-
-          {/* City Filter */}
-          <Select defaultValue="city">
-            <SelectTrigger className="w-32">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="city">Cities</SelectItem>
-              <SelectItem value="jakarta">Jakarta</SelectItem>
-              <SelectItem value="surabaya">Surabaya</SelectItem>
-              <SelectItem value="bandung">Bandung</SelectItem>
-            </SelectContent>
-          </Select>
-
-          {/* Location Type Filter */}
-          <Select defaultValue="location">
-            <SelectTrigger className="w-36">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="location">Multi-Location</SelectItem>
-              <SelectItem value="single">Single Location</SelectItem>
-              <SelectItem value="franchise">Franchise</SelectItem>
-            </SelectContent>
-          </Select>
-
-          {/* Walk-in Filter */}
-          <Select defaultValue="walkin">
-            <SelectTrigger className="w-28">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="walkin">Walk-in</SelectItem>
-              <SelectItem value="dinein">Dine-in</SelectItem>
-              <SelectItem value="takeaway">Take Away</SelectItem>
-            </SelectContent>
-          </Select>
         </div>
-
-        {/* Right side - User actions */}
+        
         <div className="flex items-center gap-4">
-          {/* Service Type Toggle */}
-          <div className="flex items-center gap-2">
-            <Badge variant="outline" className="text-pos-orange border-pos-orange">
-              <Users className="w-3 h-3 mr-1" />
-              Walk-in
-            </Badge>
-            <Badge variant="outline" className="text-muted-foreground">
-              Dine-in
-            </Badge>
-          </div>
+          {/* Navigation */}
+          <nav className="hidden md:flex items-center gap-6">
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate('/dashboard')}
+              className="text-sm font-medium"
+            >
+              Home
+            </Button>
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate('/pricing')}
+              className="text-sm font-medium"
+            >
+              Pricing
+            </Button>
+            <Button 
+              variant="ghost"
+              className="text-sm font-medium"
+            >
+              Point of Sales
+            </Button>
+          </nav>
 
           {/* Notifications */}
           <Button variant="ghost" size="icon" className="relative">
-            <Bell className="w-5 h-5" />
-            <span className="absolute -top-1 -right-1 w-3 h-3 bg-destructive rounded-full text-xs"></span>
+            <Bell className="h-4 w-4" />
+            <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-destructive"></span>
           </Button>
 
-          {/* User Profile */}
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-              <User className="w-4 h-4 text-white" />
-            </div>
-            <ChevronDown className="w-4 h-4 text-muted-foreground" />
-          </div>
+          {/* Profile Menu */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src="/avatars/01.png" alt={profile?.full_name || 'User'} />
+                  <AvatarFallback>
+                    {profile?.full_name?.charAt(0) || user?.email?.charAt(0)?.toUpperCase() || 'U'}
+                  </AvatarFallback>
+                </Avatar>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56" align="end" forceMount>
+              <div className="flex items-center justify-start gap-2 p-2">
+                <div className="flex flex-col space-y-1 leading-none">
+                  <p className="font-medium">
+                    {profile?.full_name || 'User'}
+                  </p>
+                  <p className="w-[200px] truncate text-sm text-muted-foreground">
+                    {user?.email}
+                  </p>
+                  {profile?.role && (
+                    <Badge variant="outline" className="w-fit text-xs">
+                      {profile.role}
+                    </Badge>
+                  )}
+                </div>
+              </div>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <User className="mr-2 h-4 w-4" />
+                <span>Profil</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate('/pricing')}>
+                <CreditCard className="mr-2 h-4 w-4" />
+                <span>Langganan Saya</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleLogout}>
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Logout</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>

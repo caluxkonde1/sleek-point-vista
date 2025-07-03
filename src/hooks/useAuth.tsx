@@ -7,7 +7,8 @@ interface Profile {
   user_id: string;
   full_name: string | null;
   phone: string | null;
-  role: 'admin' | 'manager' | 'cashier' | 'staff';
+  role: 'superadmin' | 'admin' | 'manager' | 'cashier' | 'staff';
+  subscription_plan: 'free' | 'pro' | 'pro_plus';
   outlet_id: string | null;
   is_active: boolean;
   created_at: string;
