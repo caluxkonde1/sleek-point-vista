@@ -9,6 +9,97 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      expenses: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          date: string
+          description: string
+          id: string
+          outlet_id: string
+          receipt_image_url: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          category: string
+          created_at?: string
+          date?: string
+          description: string
+          id?: string
+          outlet_id: string
+          receipt_image_url?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          date?: string
+          description?: string
+          id?: string
+          outlet_id?: string
+          receipt_image_url?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expenses_outlet_id_fkey"
+            columns: ["outlet_id"]
+            isOneToOne: false
+            referencedRelation: "outlets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      incomes: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          date: string
+          description: string
+          id: string
+          outlet_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          category: string
+          created_at?: string
+          date?: string
+          description: string
+          id?: string
+          outlet_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          date?: string
+          description?: string
+          id?: string
+          outlet_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "incomes_outlet_id_fkey"
+            columns: ["outlet_id"]
+            isOneToOne: false
+            referencedRelation: "outlets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       outlets: {
         Row: {
           address: string | null
@@ -173,6 +264,47 @@ export type Database = {
         }
         Relationships: []
       }
+      stock_movements: {
+        Row: {
+          created_at: string
+          id: string
+          product_id: string
+          quantity: number
+          reason: string | null
+          reference_id: string | null
+          type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          product_id: string
+          quantity: number
+          reason?: string | null
+          reference_id?: string | null
+          type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          product_id?: string
+          quantity?: number
+          reason?: string | null
+          reference_id?: string | null
+          type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stock_movements_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       transaction_items: {
         Row: {
           created_at: string
@@ -226,6 +358,7 @@ export type Database = {
           discount_amount: number
           final_amount: number
           id: string
+          notes: string | null
           outlet_id: string
           payment_method: string | null
           status: string
@@ -241,6 +374,7 @@ export type Database = {
           discount_amount?: number
           final_amount?: number
           id?: string
+          notes?: string | null
           outlet_id: string
           payment_method?: string | null
           status?: string
@@ -256,6 +390,7 @@ export type Database = {
           discount_amount?: number
           final_amount?: number
           id?: string
+          notes?: string | null
           outlet_id?: string
           payment_method?: string | null
           status?: string
@@ -282,7 +417,9 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      payment_method: "cash" | "card" | "e_wallet" | "qris" | "bank_transfer"
       subscription_plan: "free" | "pro" | "pro_plus"
+      transaction_status: "pending" | "completed" | "cancelled" | "refunded"
       user_role: "superadmin" | "admin" | "manager" | "cashier" | "staff"
     }
     CompositeTypes: {
@@ -399,7 +536,9 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      payment_method: ["cash", "card", "e_wallet", "qris", "bank_transfer"],
       subscription_plan: ["free", "pro", "pro_plus"],
+      transaction_status: ["pending", "completed", "cancelled", "refunded"],
       user_role: ["superadmin", "admin", "manager", "cashier", "staff"],
     },
   },

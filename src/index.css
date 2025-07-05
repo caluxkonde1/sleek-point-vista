@@ -20,8 +20,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 220 13% 18%;
 
-    /* Primary brand color - Blue */
-    --primary: 221 83% 53%;
+    /* Primary brand color - Orange/Red like Cafelux */
+    --primary: 15 84% 57%;
     --primary-foreground: 0 0% 100%;
 
     /* Secondary colors */
@@ -33,8 +33,8 @@
     --muted-foreground: 220 9% 46%;
 
     /* Accent colors */
-    --accent: 220 14% 96%;
-    --accent-foreground: 220 13% 18%;
+    --accent: 15 84% 57%;
+    --accent-foreground: 0 0% 100%;
 
     /* Destructive colors */
     --destructive: 0 84% 60%;
@@ -43,9 +43,9 @@
     /* Border and input colors */
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 221 83% 53%;
+    --ring: 15 84% 57%;
 
-    /* POS Platform specific colors */
+    /* POS Platform specific colors - Cafelux Theme */
     --pos-green: 142 76% 36%;
     --pos-green-foreground: 0 0% 100%;
     --pos-green-light: 142 76% 96%;
@@ -54,14 +54,14 @@
     --pos-blue-foreground: 0 0% 100%;
     --pos-blue-light: 221 83% 96%;
 
-    --pos-orange: 25 95% 53%;
+    --pos-orange: 15 84% 57%;
     --pos-orange-foreground: 0 0% 100%;
-    --pos-orange-light: 25 95% 96%;
+    --pos-orange-light: 15 84% 96%;
 
     /* Dashboard specific colors */
     --sidebar-bg: 220 26% 14%;
     --sidebar-foreground: 220 9% 46%;
-    --sidebar-active: 221 83% 53%;
+    --sidebar-active: 15 84% 57%;
     --sidebar-hover: 220 26% 18%;
 
     /* Status colors */
