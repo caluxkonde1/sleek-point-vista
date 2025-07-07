@@ -11,6 +11,15 @@ import Dashboard from "./pages/Dashboard";
 import Auth from "./pages/Auth";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
+import POS from "./pages/POS";
+import Products from "./pages/Products";
+import Receipt from "./pages/Receipt";
+import Reports from "./pages/Reports";
+import Settings from "./pages/Settings";
+import Users from "./pages/Users";
+import Outlets from "./pages/Outlets";
+import Inventory from "./pages/Inventory";
+import CashManagement from "./pages/CashManagement";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +38,51 @@ const App = () => (
             <Route path="/dashboard" element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/pos" element={
+              <ProtectedRoute>
+                <POS />
+              </ProtectedRoute>
+            } />
+            <Route path="/products" element={
+              <ProtectedRoute>
+                <Products />
+              </ProtectedRoute>
+            } />
+            <Route path="/receipt/:transactionId" element={
+              <ProtectedRoute>
+                <Receipt />
+              </ProtectedRoute>
+            } />
+            <Route path="/reports" element={
+              <ProtectedRoute>
+                <Reports />
+              </ProtectedRoute>
+            } />
+            <Route path="/settings" element={
+              <ProtectedRoute>
+                <Settings />
+              </ProtectedRoute>
+            } />
+            <Route path="/users" element={
+              <ProtectedRoute>
+                <Users />
+              </ProtectedRoute>
+            } />
+            <Route path="/outlets" element={
+              <ProtectedRoute>
+                <Outlets />
+              </ProtectedRoute>
+            } />
+            <Route path="/inventory" element={
+              <ProtectedRoute>
+                <Inventory />
+              </ProtectedRoute>
+            } />
+            <Route path="/cash" element={
+              <ProtectedRoute>
+                <CashManagement />
               </ProtectedRoute>
             } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

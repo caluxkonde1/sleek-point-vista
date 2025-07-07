@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 import { 
   ShoppingCart, 
   Plus, 
@@ -45,6 +46,7 @@ interface CartItem extends Product {
 const POS = () => {
   const { user, profile } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [products, setProducts] = useState<Product[]>([]);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -270,6 +272,9 @@ const POS = () => {
       // Clear cart and close dialog
       clearCart();
       setIsPaymentDialogOpen(false);
+      
+      // Navigate to receipt page
+      navigate(`/receipt/${transaction.id}`);
       
       // Reload products to update stock
       loadProducts();
