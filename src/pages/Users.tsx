@@ -57,11 +57,27 @@ const Users = () => {
     try {
       const { data, error } = await supabase
         .from('profiles')
-        .select('*, outlets(name)')
+        .select('*')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setUsers(data || []);
+      
+      // Get outlet names for users with outlet_id
+      const usersWithOutlets = await Promise.all(
+        (data || []).map(async (user) => {
+          if (user.outlet_id) {
+            const { data: outlet } = await supabase
+              .from('outlets')
+              .select('name')
+              .eq('id', user.outlet_id)
+              .single();
+            return { ...user, outlets: outlet };
+          }
+          return { ...user, outlets: null };
+        })
+      );
+      
+      setUsers(usersWithOutlets);
     } catch (error) {
       console.error('Error loading users:', error);
       toast({
