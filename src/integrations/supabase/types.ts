@@ -426,6 +426,10 @@ export type Database = {
         Args: { _user_id: string }
         Returns: string
       }
+      is_admin_user: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
     }
     Enums: {
       payment_method: "cash" | "card" | "e_wallet" | "qris" | "bank_transfer"

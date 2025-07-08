@@ -85,6 +85,37 @@ const App = () => (
                 <CashManagement />
               </ProtectedRoute>
             } />
+            {/* Dashboard nested routes */}
+            <Route path="/dashboard/laporan" element={
+              <ProtectedRoute>
+                <Reports />
+              </ProtectedRoute>
+            } />
+            <Route path="/dashboard/produk" element={
+              <ProtectedRoute>
+                <Products />
+              </ProtectedRoute>
+            } />
+            <Route path="/dashboard/pegawai" element={
+              <ProtectedRoute>
+                <Users />
+              </ProtectedRoute>
+            } />
+            <Route path="/dashboard/outlet" element={
+              <ProtectedRoute>
+                <Outlets />
+              </ProtectedRoute>
+            } />
+            <Route path="/dashboard/inventaris" element={
+              <ProtectedRoute>
+                <Inventory />
+              </ProtectedRoute>
+            } />
+            <Route path="/dashboard/kelola-kas" element={
+              <ProtectedRoute>
+                <CashManagement />
+              </ProtectedRoute>
+            } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
